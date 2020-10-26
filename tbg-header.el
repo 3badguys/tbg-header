@@ -27,57 +27,46 @@
 
 (defun insert-copyright ()
   "Insert copyright line."
-  (interactive)
   (insert ";; Copyright © 2020-2027, by 3badguys\n\n"))
 
 (defun insert-author ()
   "Insert author line."
-  (interactive)
   (insert ";; Author: 3badguys\n"))
 
 (defun insert-version ()
   "Insert version line."
-  (interactive)
   (insert ";; Version: ▮\n"))
 
 (defun insert-create-date ()
   "Insert create date line."
-  (interactive)
   (insert ";; Created: ▮\n"))
 
 (defun insert-package-requires ()
   "Insert package requires line."
-  (interactive)
   (insert ";; Package-Requires: ▮\n"))
 
 (defun insert-keyword ()
   "Insert keyword line."
-  (interactive)
   (insert ";; Keywords: ▮\n"))
 
 (defun insert-license ()
   "Insert license line."
-  (interactive)
   (insert ";; License: GPL v3\n\n"))
 
 (defun insert-not-gnu-emacs ()
   "Insert not gnu emacs line."
-  (interactive)
   (insert ";; This file is not part of GNU Emacs.\n\n"))
 
 (defun insert-commentary ()
   "Insert commentary line."
-  (interactive)
   (insert ";;; Commentary:\n\n"))
 
 (defun insert-code ()
   "Insert code line."
-  (interactive)
   (insert ";;; Code:\n\n"))
 
 (defun insert-end ()
   "Insert end line."
-  (interactive)
   (insert (concat "\n;;; "
                   (if (buffer-file-name)
                       (file-name-nondirectory (buffer-file-name))

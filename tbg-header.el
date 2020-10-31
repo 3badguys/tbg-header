@@ -22,16 +22,19 @@
                   (if (buffer-file-name)
                       (file-name-nondirectory (buffer-file-name))
                     (buffer-name))
-                  " --- ▮ -*- coding: utf-8; lexical-binding: t; -*-\n\n"
-                  )))
+                  " --- ▮ -*- coding: utf-8; lexical-binding: t; -*-\n\n")))
 
 (defun insert-copyright ()
   "Insert copyright line."
-  (insert ";; Copyright © 2020-2027, by 3badguys\n\n"))
+  (insert (concat ";; Copyright © 2020-2027, by "
+                  (user-full-name)
+                  "\n\n")))
 
 (defun insert-author ()
   "Insert author line."
-  (insert ";; Author: 3badguys\n"))
+  (insert (concat ";; Author: "
+                  (user-full-name)
+                  "\n")))
 
 (defun insert-version ()
   "Insert version line."
@@ -71,8 +74,7 @@
                   (if (buffer-file-name)
                       (file-name-nondirectory (buffer-file-name))
                     (buffer-name))
-                  " ends here\n"
-                  )))
+                  " ends here\n")))
 
 ;;;###autoload
 (defun tbg-insert-header ()
@@ -110,15 +112,13 @@
                                 (if (buffer-file-name)
                                     (file-name-nondirectory (buffer-file-name))
                                   (buffer-name))
-                                " --- "
-                                ))
+                                " --- "))
       (setq $code-str ";;; Code:\n\n")
       (setq $end-str (concat "\n;;; "
                              (if (buffer-file-name)
                                  (file-name-nondirectory (buffer-file-name))
                                (buffer-name))
-                             " ends here\n"
-                             ))
+                             " ends here\n"))
       ;;
       (beginning-of-buffer)
       (search-forward $titile-str nil t)

@@ -80,25 +80,31 @@
 (defun tbg-insert-header ()
   "Insert the file header."
   (interactive)
-  (save-excursion
-    ;;
-    (beginning-of-buffer)
-    (insert-title)
-    (insert-copyright)
-    (insert-author)
-    (insert-version)
-    (insert-create-date)
-    (insert-package-requires)
-    (insert-keyword)
-    (insert-license)
-    (insert-not-gnu-emacs)
-    (insert-commentary)
-    (insert-code)
-    ;;
-    (end-of-buffer)
-    (insert-end)
-    ;;
-    ))
+  (let ($titile-str)
+    (save-excursion
+      (setq $titile-str (concat ";;; "
+                                (if (buffer-file-name)
+                                    (file-name-nondirectory (buffer-file-name))
+                                  (buffer-name))
+                                " --- "))
+      (beginning-of-buffer)
+      (if (search-forward $titile-str nil t)
+          (message "Header has existed..")
+        (progn
+          (beginning-of-buffer)
+          (insert-title)
+          (insert-copyright)
+          (insert-author)
+          (insert-version)
+          (insert-create-date)
+          (insert-package-requires)
+          (insert-keyword)
+          (insert-license)
+          (insert-not-gnu-emacs)
+          (insert-commentary)
+          (insert-code)
+          (end-of-buffer)
+          (insert-end))))))
 
 ;;;###autoload
 (defun tbg-remove-header ()
@@ -119,7 +125,6 @@
                                  (file-name-nondirectory (buffer-file-name))
                                (buffer-name))
                              " ends here\n"))
-      ;;
       (beginning-of-buffer)
       (search-forward $titile-str nil t)
       (search-backward $titile-str nil t)
@@ -127,15 +132,12 @@
       (search-forward $code-str nil t)
       (setq $header-p2 (point))
       (delete-region $header-p1 $header-p2)
-      ;;
       (end-of-buffer)
       (search-backward $end-str nil t)
       (setq $end-p1 (point))
       (search-forward $end-str nil t)
       (setq $end-p2 (point))
-      (delete-region $end-p1 $end-p2)
-      ;;
-      )))
+      (delete-region $end-p1 $end-p2))))
 
 (provide 'tbg-header)
 

@@ -80,16 +80,21 @@
 (defun tbg-insert-header ()
   "Insert the file header."
   (interactive)
-  (let ($titile-str)
+  (let ($titile-str $end-str)
     (save-excursion
       (setq $titile-str (concat ";;; "
                                 (if (buffer-file-name)
                                     (file-name-nondirectory (buffer-file-name))
                                   (buffer-name))
                                 " --- "))
+      (setq $end-str (concat "\n;;; "
+                             (if (buffer-file-name)
+                                 (file-name-nondirectory (buffer-file-name))
+                               (buffer-name))
+                             " ends here\n"))
       (beginning-of-buffer)
       (if (search-forward $titile-str nil t)
-          (message "Header has existed..")
+          (message "Title line has existed, ignore insert..")
         (progn
           (beginning-of-buffer)
           (insert-title)
@@ -102,7 +107,11 @@
           (insert-license)
           (insert-not-gnu-emacs)
           (insert-commentary)
-          (insert-code)
+          (insert-code)))
+      (end-of-buffer)
+      (if (search-backward $end-str nil t)
+          (message "End line has existed, ignore insert..")
+        (progn
           (end-of-buffer)
           (insert-end))))))
 
@@ -126,18 +135,22 @@
                                (buffer-name))
                              " ends here\n"))
       (beginning-of-buffer)
-      (search-forward $titile-str nil t)
-      (search-backward $titile-str nil t)
-      (setq $header-p1 (point))
-      (search-forward $code-str nil t)
-      (setq $header-p2 (point))
-      (delete-region $header-p1 $header-p2)
+      (if (search-forward $titile-str nil t)
+          (progn
+            (search-backward $titile-str nil t)
+            (setq $header-p1 (point))
+            (search-forward $code-str nil t)
+            (setq $header-p2 (point))
+            (delete-region $header-p1 $header-p2))
+        (message "Title line does not exist, ignore remove.."))
       (end-of-buffer)
-      (search-backward $end-str nil t)
-      (setq $end-p1 (point))
-      (search-forward $end-str nil t)
-      (setq $end-p2 (point))
-      (delete-region $end-p1 $end-p2))))
+      (if (search-backward $end-str nil t)
+          (progn
+            (setq $end-p1 (point))
+            (search-forward $end-str nil t)
+            (setq $end-p2 (point))
+            (delete-region $end-p1 $end-p2))
+        (message "End line does not exist, ignore remove..")))))
 
 (provide 'tbg-header)
 

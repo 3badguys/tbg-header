@@ -77,7 +77,7 @@
                   " ends here\n")))
 
 ;;;###autoload
-(defun tbg-insert-header ()
+(defun tbg-header-insert-header ()
   "Insert the file header."
   (interactive)
   (let ($titile-str $end-str)
@@ -116,7 +116,7 @@
           (insert-end))))))
 
 ;;;###autoload
-(defun tbg-remove-header ()
+(defun tbg-header-remove-header ()
   "Remove the file header."
   (interactive)
   (let (
